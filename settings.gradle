@@ -8,6 +8,7 @@ rootProject.name = 'back-auth-service'
 
 include(":app-service",
         ":api-rest",
+        ":cloud-provider",
         ":jpa-repository",
         ":usecase",
         ":model")
@@ -15,6 +16,7 @@ include(":app-service",
 project(":app-service").projectDir = file("./application/app-service")
 
 project(":jpa-repository").projectDir = file("./infraestructure/driven-adapters/jpa-repository")
+project(":cloud-provider").projectDir = file("./infraestructure/driven-adapters/cloud-provider")
 
 project(":api-rest").projectDir = file("./infraestructure/entry-points/api-rest")
 

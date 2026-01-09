@@ -40,9 +40,6 @@ spring:
         hibernate:
           format_sql: true
           use_sql_comments: true
-
-
-
   management:
     endpoints:
       web:
@@ -51,3 +48,12 @@ spring:
     endpoint:
       health:
         show-details: always
+
+cloud-provider:
+  aws:
+    s3:
+      bucket-name:
+        objects:
+          templateHtml:
+    ses:
+      sender:
