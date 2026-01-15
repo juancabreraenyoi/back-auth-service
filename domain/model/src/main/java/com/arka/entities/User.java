@@ -1,6 +1,6 @@
 package com.arka.entities;
 
-import com.arka.entities.enums.Rol;
+import com.arka.entities.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private Rol role;
+    private Role role;
     private boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
