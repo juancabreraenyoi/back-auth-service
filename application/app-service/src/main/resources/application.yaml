@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  jackson:
+    time-zone: UTC
   application:
     name: "back-auth-service"
 
@@ -48,7 +50,9 @@ spring:
     endpoint:
       health:
         show-details: always
-
+jwt-provider:
+  expiration-date : 3600000
+  secret: "sM|<EjC=de:|TC/(/ldr)ELFeqV$}dDwqn}/mZ5A2ug"
 cloud-provider:
   aws:
     s3:

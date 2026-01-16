@@ -12,6 +12,8 @@ FROM amazoncorretto:21-alpine AS production
 
 WORKDIR /app
 
+ENV TZ America/Bogota
+
 COPY --from=build /app-service/application/app-service/build/libs/*.jar  app.jar
 
 EXPOSE 8080
