@@ -1,4 +1,4 @@
-package com.arka.entities;
+package com.arka.entities.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

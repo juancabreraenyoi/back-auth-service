@@ -53,6 +53,8 @@ spring:
 jwt-provider:
   expiration-date : 3600000
   secret: "sM|<EjC=de:|TC/(/ldr)ELFeqV$}dDwqn}/mZ5A2ug"
+  password-rest:
+    token-expiration-minutes: 30
 cloud-provider:
   aws:
     s3:

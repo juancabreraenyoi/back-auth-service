@@ -1,6 +1,7 @@
 package com.arka;
 
 import com.arka.entities.User;
+import com.arka.gateway.JwtGateway;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAdapter {
+public class JwtAdapter implements JwtGateway {
 
     @Value("${jwt-provider.expiration-date}")
     private Long expirationDate;
