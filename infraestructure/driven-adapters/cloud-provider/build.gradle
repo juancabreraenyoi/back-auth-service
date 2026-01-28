@@ -2,5 +2,6 @@ dependencies {
     implementation project(":usecase")
     implementation project(":model")
     implementation("software.amazon.awssdk:s3")
+    implementation("software.amazon.awssdk:ses")
     implementation("software.amazon.awssdk:sts")
 }

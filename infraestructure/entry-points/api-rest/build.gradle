@@ -1,6 +1,7 @@
 dependencies {
     implementation project(":usecase")
     implementation project(":model")
+    implementation project(":jwt-provider")
     implementation ("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.springframework.boot:spring-boot-starter-undertow")

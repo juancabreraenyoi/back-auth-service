@@ -1,5 +1,6 @@
 package com.arka.config.security;
 
+import com.arka.JwtAdapter;
 import com.arka.config.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.time.Clock;
 
 @Configuration
 @EnableWebSecurity
@@ -20,8 +25,18 @@ public class SecurityConfig {
     private final CorsConfig corsConfig;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+    public Clock clock() {
+        return Clock.systemUTC();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(UserDetailsService userDetailsService, JwtAdapter jwtAdapter) {
+        return new JwtAuthenticationFilter(userDetailsService, jwtAdapter);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfig.corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -33,9 +48,9 @@ public class SecurityConfig {
                                         "/auth/password/reset",
                                         "/actuator/health"
                                 ).permitAll()
-                                .requestMatchers("/admin/").hasRole("ADMIN")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
-                .addFilterBefore()
-
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 }

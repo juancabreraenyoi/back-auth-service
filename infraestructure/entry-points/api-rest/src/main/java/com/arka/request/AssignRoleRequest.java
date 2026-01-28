@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssignRoleRequest {
+
     @NotNull(message = "El Role es obligatorio")
     private Role role;
 }

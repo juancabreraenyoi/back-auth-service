@@ -5,13 +5,18 @@ import com.arka.gateway.UserGateway;
 import com.arka.repositorys.UserRepository;
 import com.arka.tables.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserServiceAdapter implements UserGateway {
+public class UserServiceAdapter implements UserGateway, UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -32,6 +37,24 @@ public class UserServiceAdapter implements UserGateway {
         var entity = toEntity(user);
         var saved = userRepository.save(entity);
         return toDomain(saved);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(userEntity.getEmail())
+                .password(userEntity.getPassword())
+                .authorities(Collections.singletonList(
+                        new SimpleGrantedAuthority("ROLE_" + userEntity.getRole().name())
+                ))
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(!userEntity.isEnabled())
+                .build();
     }
 
     /**

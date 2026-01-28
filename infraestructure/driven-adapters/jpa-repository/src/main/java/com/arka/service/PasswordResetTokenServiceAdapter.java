@@ -3,6 +3,7 @@ package com.arka.service;
 import com.arka.entities.PasswordResetToken;
 import com.arka.gateway.PasswordResetTokenGateway;
 import com.arka.repositorys.PasswordResetTokenRepository;
+import com.arka.repositorys.UserRepository;
 import com.arka.tables.PasswordResetTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class PasswordResetTokenServiceAdapter implements PasswordResetTokenGateway {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -31,20 +33,16 @@ public class PasswordResetTokenServiceAdapter implements PasswordResetTokenGatew
 
     @Override
     public void delete(PasswordResetToken passwordResetToken) {
-
+        var entity = toEntity(passwordResetToken);
+        passwordResetTokenRepository.delete(entity);
     }
 
     @Override
     public void deleteByUser(String email) {
-        passwordResetTokenRepository.deleteByUserEmail(email);
+        userRepository.findByEmail(email)
+                .ifPresent(user -> passwordResetTokenRepository.deleteByUserId(String.valueOf(user.getId())));
     }
 
-    /**
-     * Aqui creamos un mapeo manual pero debe estar en otro contexto y servir para cualquier contexto de dominio y
-     * adaptador -- se puede usar la libreria https://mapstruct.org/
-     * @param passwordResetTokenEntity
-     * @return
-     */
     private PasswordResetToken toDomain(PasswordResetTokenEntity passwordResetTokenEntity) {
         return PasswordResetToken.builder()
                 .token(passwordResetTokenEntity.getToken())
@@ -55,12 +53,6 @@ public class PasswordResetTokenServiceAdapter implements PasswordResetTokenGatew
                 .build();
     }
 
-    /**
-     * Aqui creamos un mapeo manual pero debe estar en otro contexto y servir para cualquier contexto de dominio y
-     * adaptador -- se puede usar la libreria https://mapstruct.org/
-     * @param passwordResetToken
-     * @return
-     */
     private PasswordResetTokenEntity toEntity(PasswordResetToken passwordResetToken) {
         return PasswordResetTokenEntity.builder()
                 .token(passwordResetToken.getToken())

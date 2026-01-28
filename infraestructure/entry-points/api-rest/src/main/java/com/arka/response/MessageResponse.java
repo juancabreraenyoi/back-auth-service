@@ -13,7 +13,7 @@ public class MessageResponse {
 
     private String message;
 
-    public  MessageResponse of (String message) {
+    public MessageResponse of(String message) {
         return MessageResponse.builder()
                 .message(message)
                 .build();

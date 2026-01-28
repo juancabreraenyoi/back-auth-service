@@ -21,7 +21,7 @@ public class UserResponse {
     private boolean enabled;
     private LocalDateTime createdAt;
 
-    public UserResponse from(User user) {
+    public static UserResponse of(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
