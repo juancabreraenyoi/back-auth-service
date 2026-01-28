@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "auth-service-collection",
+		"name": "Back Auth Service API",
+		"description": "Colección completa para probar el servicio de autenticación con Spring Boot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwt_token\", jsonData.token);",
+									"    pm.environment.set(\"user_id\", jsonData.userId);",
+									"    console.log(\"Token guardado: \" + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"usuario@example.com\",\n    \"password\": \"Password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario en el sistema. Retorna un JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"jwt_token\", jsonData.token);",
+									"    pm.environment.set(\"user_id\", jsonData.userId);",
+									"    console.log(\"Token guardado: \" + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"usuario@example.com\",\n    \"password\": \"Password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión con credenciales. Retorna un JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"usuario@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/password/forgot",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"password",
+								"forgot"
+							]
+						},
+						"description": "Solicita un token de reseteo de contraseña. Se envía un email al usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"reset-token-from-email\",\n    \"newPassword\": \"NewPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/password/reset",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"password",
+								"reset"
+							]
+						},
+						"description": "Resetea la contraseña usando el token recibido por email."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints públicos de autenticación"
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"me"
+							]
+						},
+						"description": "Obtiene la información del usuario autenticado actual."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints protegidos para usuarios autenticados"
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Assign Role to User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/{{user_id}}/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"users",
+								"{{user_id}}",
+								"role"
+							]
+						},
+						"description": "Asigna un rol a un usuario. Solo accesible por usuarios con rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints protegidos solo para administradores"
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						},
+						"description": "Verifica el estado de salud de la aplicación."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de monitoreo"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
