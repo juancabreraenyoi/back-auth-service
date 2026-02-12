@@ -1,4 +1,4 @@
-package com.arka.config.security;
+package com.arka.aws.config.security;
 
 import com.arka.JwtAdapter;
 import jakarta.servlet.FilterChain;

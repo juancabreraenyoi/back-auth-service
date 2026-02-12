@@ -1,4 +1,4 @@
-package com.arka;
+package com.arka.aws;
 
 import com.arka.gateway.CloudStorageGateway;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package com.arka.config.security;
+package com.arka.aws.config.security;
 
 import com.arka.JwtAdapter;
-import com.arka.config.CorsConfig;
+import com.arka.aws.config.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
