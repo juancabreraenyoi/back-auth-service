@@ -1,4 +1,4 @@
-FROM amazoncorretto:21-alpine AS build
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:21-alpine AS build
 
 WORKDIR /app-service
 
@@ -8,7 +8,7 @@ RUN chmod +x ./gradlew
 
 RUN ./gradlew clean build -x test --no-daemon
 
-FROM amazoncorretto:21-alpine AS production
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:21-alpine AS production
 
 WORKDIR /app
 
