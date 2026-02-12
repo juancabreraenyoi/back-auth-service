@@ -1,4 +1,4 @@
-package com.arka.config;
+package com.arka.aws.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

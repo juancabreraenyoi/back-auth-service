@@ -11,6 +11,12 @@ import com.arka.request.ResetPasswordRequest;
 import com.arka.response.AuthResponse;
 import com.arka.response.MessageResponse;
 import com.arka.response.UserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Auth",description = "Flujo de autenticacion")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
@@ -31,7 +38,28 @@ public class AuthController {
     @Value("${jwt-provider.expiration-date}")
     private Long expirationDate;
 
+    /**
+     * Creacion de usuarios en el sistema
+     * @param request objeto de entrada para ejecucion del servicio
+     * @return AuthResponse con el cliente creado
+     */
+
     @PostMapping("/register")
+    @Operation(
+            summary = "Registrar un cliente nuevo",
+            description = "Registor de clientes ARKA"
+
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cliente creado con exito",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AuthResponse.class)
+                    )
+            )
+    })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         var register = Register.builder()
                 .email(request.getEmail())

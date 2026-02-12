@@ -9,6 +9,9 @@ rootProject.name = 'back-auth-service'
 include(":app-service",
         ":api-rest",
         ":cloud-provider",
+        ":azure-provider",
+        ":aws-provider",
+        ":gcp-provider",
         ":jwt-provider",
         ":jpa-repository",
         ":usecase",
@@ -18,6 +21,9 @@ project(":app-service").projectDir = file("./application/app-service")
 
 project(":jpa-repository").projectDir = file("./infraestructure/driven-adapters/jpa-repository")
 project(":cloud-provider").projectDir = file("./infraestructure/driven-adapters/cloud-provider")
+project(":azure-provider").projectDir = file("./infraestructure/driven-adapters/cloud-providers/azure-provider")
+project(":gcp-provider").projectDir = file("./infraestructure/driven-adapters/cloud-providers/gcp-provider")
+project(":aws-provider").projectDir = file("./infraestructure/driven-adapters/cloud-providers/aws-provider")
 project(":jwt-provider").projectDir = file("./infraestructure/driven-adapters/jwt-provider")
 
 project(":api-rest").projectDir = file("./infraestructure/entry-points/api-rest")

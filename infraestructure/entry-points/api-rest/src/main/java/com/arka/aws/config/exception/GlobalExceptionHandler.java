@@ -1,4 +1,4 @@
-package com.arka.config.exception;
+package com.arka.aws.config.exception;
 
 import com.arka.exceptions.InvalidCredentialsException;
 import com.arka.exceptions.UserAlreadyExistException;

@@ -7,9 +7,9 @@ spring:
   application:
     name: "back-auth-service"
   datasource:
-    url: jdbc:mysql://database-arka..us-east-1.rds.amazonaws.com:3306/arkadatabase
-    username:
-    password:
+    url: jdbc:mysql://database-arka.c6p2yc4yy1z6.us-east-1.rds.amazonaws.com:3306/arkadatabase
+    username: admin
+    password: P58lSKmkOVzVkgwzLqfH
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       autoCommit: true
@@ -64,4 +64,7 @@ cloud-provider:
         objects:
           templateHtml: ${S3_BUCKET_NAME:my-bucket}
     ses:
-      sender: ${SES_SENDER_EMAIL:noreply@example.com}
+      sender: ${SES_SENDER_EMAIL:juansecabreram10@gmail.com}
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
